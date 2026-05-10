@@ -15,6 +15,7 @@ import Admin from './pages/Admin'
 import Settings from './pages/Settings'
 import ApiDocs from './pages/ApiDocs'
 import ReportPage from './pages/ReportPage'
+import FakeNewsChecker from './pages/FakeNewsChecker'
 
 import DashboardLayout from './components/DashboardLayout'
 import LoadingScreen from './components/LoadingScreen'
@@ -55,6 +56,7 @@ function AppRoutes() {
       <Route path="/history" element={<PrivateRoute><DashboardLayout><History /></DashboardLayout></PrivateRoute>} />
       <Route path="/settings" element={<PrivateRoute><DashboardLayout><Settings /></DashboardLayout></PrivateRoute>} />
       <Route path="/report/:id" element={<PrivateRoute><DashboardLayout><ReportPage /></DashboardLayout></PrivateRoute>} />
+      <Route path="/fake-news-checker" element={<PrivateRoute><DashboardLayout><FakeNewsChecker /></DashboardLayout></PrivateRoute>} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminRoute><DashboardLayout><Admin /></DashboardLayout></AdminRoute>} />

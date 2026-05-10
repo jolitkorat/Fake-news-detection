@@ -5,6 +5,17 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'build',
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'motion': ['framer-motion'],
+          'charts': ['recharts'],
+          'icons': ['lucide-react'],
+        },
+      },
+    },
   },
   server: {
     port: 5173,
