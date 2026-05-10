@@ -156,7 +156,7 @@ cd backend
 npm install
 
 # Ensure .env has:
-ANAKIN_API_KEY=ask_eeecb18b9a94bad1ca2fa7c7811321d05eb1fd3192992ea88de41150b9bdb042
+ANAKIN_API_KEY=your-anakin-api-key-here
 ANAKIN_API_URL=https://api.anakin.io/v1/search
 
 # Start backend
@@ -252,7 +252,7 @@ docs/
 
 ### Required Environment Variables
 ```
-ANAKIN_API_KEY=ask_eeecb18b9a94bad1ca2fa7c7811321d05eb1fd3192992ea88de41150b9bdb042
+ANAKIN_API_KEY=your-anakin-api-key-here
 ```
 
 ### Optional Environment Variables

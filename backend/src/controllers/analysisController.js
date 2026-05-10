@@ -6,6 +6,16 @@ const User = require('../models/User');
 const logger = require('../utils/logger');
 const { v4: uuidv4 } = require('uuid');
 
+const normalizeEntities = (entities = []) => (
+  Array.isArray(entities)
+    ? entities.map((entity) => ({
+      text: entity.text,
+      entityType: entity.entityType || entity.type || 'OTHER',
+      salience: entity.salience || 0.3,
+    }))
+    : []
+);
+
 /**
  * POST /api/analyze
  * Single article analysis
@@ -79,7 +89,7 @@ const analyze = async (req, res) => {
       })),
       nlpAnalysis: {
         sentiment: aiData.nlp_analysis?.sentiment || { label: 'neutral', score: 0 },
-        entities: aiData.nlp_analysis?.entities || [],
+        entities: normalizeEntities(aiData.nlp_analysis?.entities),
         propagandaScore: aiData.nlp_analysis?.propaganda_score || 0,
         clickbaitScore: aiData.nlp_analysis?.clickbait_score || 0,
         biasScore: aiData.nlp_analysis?.bias_score || 0,
@@ -210,7 +220,7 @@ const bulkAnalyze = async (req, res) => {
             })),
             nlpAnalysis: {
               sentiment: aiResult.data.nlp_analysis?.sentiment || {},
-              entities: aiResult.data.nlp_analysis?.entities || [],
+              entities: normalizeEntities(aiResult.data.nlp_analysis?.entities),
               propagandaScore: aiResult.data.nlp_analysis?.propaganda_score || 0,
               clickbaitScore: aiResult.data.nlp_analysis?.clickbait_score || 0,
               biasScore: aiResult.data.nlp_analysis?.bias_score || 0,

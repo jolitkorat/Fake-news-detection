@@ -1,8 +1,10 @@
 const axios = require('axios');
 const logger = require('../utils/logger');
 
-const ANAKIN_SEARCH_URL = 'https://api.anakin.io/v1/search';
-const ANAKIN_API_KEY = process.env.ANAKIN_API_KEY;
+const getAnakinConfig = () => ({
+  apiUrl: process.env.ANAKIN_SEARCH_URL || process.env.ANAKIN_API_URL || 'https://api.anakin.io/v1/search',
+  apiKey: process.env.ANAKIN_API_KEY,
+});
 
 /**
  * Search for content using Anakin Search API
@@ -11,7 +13,9 @@ const ANAKIN_API_KEY = process.env.ANAKIN_API_KEY;
  * @returns {Object} - Search results with id and results array
  */
 const searchWithAnakin = async (searchQuery, limit = 5) => {
-  if (!ANAKIN_API_KEY) {
+  const { apiUrl, apiKey } = getAnakinConfig();
+
+  if (!apiKey || apiKey.includes('your-')) {
     logger.warn('ANAKIN_API_KEY is not configured');
     return {
       success: false,
@@ -26,9 +30,9 @@ const searchWithAnakin = async (searchQuery, limit = 5) => {
       limit: Math.min(limit, 10), // Cap at 10 results
     };
 
-    const response = await axios.post(ANAKIN_SEARCH_URL, payload, {
+    const response = await axios.post(apiUrl, payload, {
       headers: {
-        'X-API-Key': ANAKIN_API_KEY,
+        'X-API-Key': apiKey,
         'Content-Type': 'application/json',
       },
       timeout: 30000,

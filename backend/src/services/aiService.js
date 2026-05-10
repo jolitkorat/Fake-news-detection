@@ -5,12 +5,17 @@ let openaiClient = null;
 
 const getClient = () => {
   if (!openaiClient) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey || apiKey.includes('your-')) {
+      return null;
+    }
+
     const config = {
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey,
     };
 
     if (process.env.OPENAI_BASE_URL && process.env.OPENAI_BASE_URL.trim()) {
-      config.apiBase = process.env.OPENAI_BASE_URL.trim();
+      config.baseURL = process.env.OPENAI_BASE_URL.trim();
     }
 
     openaiClient = new OpenAI(config);
@@ -25,6 +30,11 @@ const getClient = () => {
  */
 const analyzeContent = async (content) => {
   const client = getClient();
+  if (!client) {
+    logger.warn('OPENAI_API_KEY is not configured. Using demo mode analysis.');
+    return getMockAnalysis(content);
+  }
+
   const model = process.env.OPENAI_MODEL || 'gpt-4o';
 
   const systemPrompt = `You are TruthLens AI, an advanced fake news detection system. 
@@ -70,7 +80,6 @@ Provide your analysis as a JSON object with these exact fields:
 Be precise and objective. Use clear evidence-based reasoning, and default to Fake when the text is highly sensational and unsupported.`;
 
   try {
-    const client = getClient();
     const response = await client.chat.completions.create({
       model,
       messages: [

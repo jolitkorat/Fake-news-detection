@@ -99,7 +99,7 @@ Add these to `backend/.env`:
 
 ```env
 # Required: Anakin Search API
-ANAKIN_API_KEY=ask_eeecb18b9a94bad1ca2fa7c7811321d05eb1fd3192992ea88de41150b9bdb042
+ANAKIN_API_KEY=your-anakin-api-key-here
 
 # Optional: Override default Anakin endpoint
 ANAKIN_SEARCH_URL=https://api.anakin.io/v1/search

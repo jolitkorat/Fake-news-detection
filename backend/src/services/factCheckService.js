@@ -3,12 +3,12 @@ const cheerio = require('cheerio');
 const logger = require('../utils/logger');
 const { scrapeUrlWithAnakin } = require('./anakinService');
 
-const useAnakin = process.env.ANAKIN_API_KEY && process.env.ANAKIN_API_URL;
-
 /**
  * Scrape article content from a URL
  */
 const scrapeUrl = async (url) => {
+  const useAnakin = process.env.ANAKIN_API_KEY && process.env.ANAKIN_API_URL;
+
   if (useAnakin) {
     const scraped = await scrapeUrlWithAnakin(url);
     if (scraped.success) {

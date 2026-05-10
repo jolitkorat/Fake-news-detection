@@ -41,7 +41,7 @@ const SENSATIONAL_KEYWORDS = [
   'absolutely stunning',
   'unbelievable',
   'this will shock you',
-  'they don't want you to know',
+  "they don't want you to know",
 ];
 
 // Propaganda and conspiracy language
@@ -110,7 +110,8 @@ const findKeywords = (text, keywords) => {
   let count = 0;
 
   keywords.forEach(keyword => {
-    const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+    const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escapedKeyword}\\b`, 'gi');
     const matches_found = lowerText.match(regex);
     if (matches_found) {
       count += matches_found.length;
@@ -301,7 +302,7 @@ const determineVerdict = (fakeScore, sourceAnalysis) => {
     confidence = Math.min(90, 60 + (fakeScore - 55) * 1.5);
   } else if (fakeScore >= 35) {
     verdict = 'Partially True';
-    confidence = Math.min(85, 55 + (35 - fakeScore) * 0.75);
+    confidence = Math.min(85, 55 + (fakeScore - 35) * 0.75);
   } else if (sourceAnalysis.trustedSourceCount >= 2) {
     verdict = 'Verified';
     confidence = Math.min(92, 65 + sourceAnalysis.trustedSourceCount * 10);
