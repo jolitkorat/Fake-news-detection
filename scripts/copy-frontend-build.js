@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const rootDir = path.resolve(__dirname, '..');
-const sourceDir = path.join(rootDir, 'frontend', 'build');
+const sourceDir = path.join(rootDir, 'frontend', 'dist');
 const targetDir = path.join(rootDir, 'build');
 
 if (!fs.existsSync(sourceDir)) {
